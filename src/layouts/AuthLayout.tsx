@@ -1,23 +1,11 @@
 import { Container, Box } from '@mui/material';
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface AuthLayoutProps {
-  children: ReactNode;
-}
-
-export function AuthLayout({ children }: AuthLayoutProps) {
+export function AuthLayout() {
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          minHeight: '100vh', // Garante que o container ocupe 100% da altura da tela
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center', // Centraliza o conteúdo verticalmente
-        }}
-      >
-        {children} {/* Aqui é onde o conteúdo da página (Login/Cadastro) será renderizado */}
+    <Container component="main" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Box sx={{ width: '100%', maxWidth: '450px' }}>
+         <Outlet /> {/* As páginas de Login e Cadastro serão renderizadas aqui */}
       </Box>
     </Container>
   );

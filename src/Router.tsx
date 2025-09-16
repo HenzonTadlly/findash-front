@@ -2,33 +2,36 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
-import { ProtectedRoute } from './components/ProtectedRoute'; // 1. Importar nosso segurança
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthLayout } from './layouts/AuthLayout';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Navigate to="/login" replace />,
   },
-  // Rotas Públicas
+  // Rotas Públicas que usam o Layout de Autenticação
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/cadastro',
-    element: <Register />,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/cadastro',
+        element: <Register />,
+      },
+    ]
   },
   // Rotas Protegidas
   {
-    element: <ProtectedRoute />, // 2. O componente de proteção é o "pai"
+    element: <ProtectedRoute />,
     children: [
-      // 3. Todas as rotas aqui dentro são filhas e, portanto, protegidas
       {
         path: '/dashboard',
         element: <Dashboard />,
       },
-      // Se tivéssemos uma página de perfil, ela iria aqui também:
-      // { path: '/perfil', element: <Profile /> },
     ],
   },
 ]);

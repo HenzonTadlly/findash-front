@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import api from "../api";
-import { AuthLayout } from '../layouts/AuthLayout';
+import api from '../api';
 import {
   Avatar,
   Box,
@@ -14,10 +13,9 @@ import {
   Alert,
   Paper,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export function Login() {
-  // A lógica de 'useState' e 'handleSubmit' não muda.
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,24 +38,25 @@ export function Login() {
   }
 
   return (
-    <AuthLayout>
+    <>
       <Paper 
         elevation={6}
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: 4,
+          p: 4,
+          borderRadius: 2,
           width: '100%',
-          maxWidth: '400px',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main', width: 56, height: 56 }}>
+          <AttachMoneyIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Entrar
+        <Typography component="h1" variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
+          FinDash
         </Typography>
+        <Typography component="h2" variant="h6">Entrar</Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField margin="normal" required fullWidth id="email" label="Endereço de Email" name="email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
           <TextField margin="normal" required fullWidth name="password" label="Senha" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -65,16 +64,15 @@ export function Login() {
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link component={RouterLink} to="/cadastro" variant="body2">
-                {"Não tem uma conta? Cadastre-se"}
+                Não tem uma conta? Cadastre-se
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Paper>
-
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert onClose={() => setOpenSnackbar(false)} severity="error" sx={{ width: '100%' }}>{snackbarMessage}</Alert>
       </Snackbar>
-    </AuthLayout>
+    </>
   );
 }
