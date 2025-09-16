@@ -49,7 +49,7 @@ export function Login() {
           <TextField margin="normal" required fullWidth name="password" label="Senha" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Entrar</Button>
           <Grid container justifyContent="flex-end">
-            <Grid> {/* <-- CORRIGIDO AQUI */}
+            <Grid item> {/* AQUI A SINTAXE DE 'item' É PERMITIDA POIS É SIMPLES */}
               <Link component={RouterLink} to="/cadastro" variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
