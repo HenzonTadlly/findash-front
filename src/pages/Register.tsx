@@ -54,7 +54,7 @@ export function Register() {
           <TextField margin="normal" required fullWidth name="password" label="Senha" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
           <Grid container justifyContent="flex-end">
-            <Grid>
+            <Grid> {/* <-- CORRIGIDO AQUI */}
               <Link component={RouterLink} to="/login" variant="body2">
                 Já tem uma conta? Entre
               </Link>
