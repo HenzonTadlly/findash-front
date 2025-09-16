@@ -187,17 +187,15 @@ export function Dashboard() {
         </Stack>
 
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid xs={12} md={8}>
-            <Grid container spacing={3}>
-              <Grid xs={12} sm={6}>
-                <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'success.dark', width: 56, height: 56 }}><ArrowUpwardIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Receitas</Typography><Typography variant="h5" sx={{ fontWeight: 'bold' }}>R$ {totalIncome.toFixed(2)}</Typography></Box></Paper>
-              </Grid>
-              <Grid xs={12} sm={6}>
-                <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'error.dark', width: 56, height: 56 }}><ArrowDownwardIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Despesas</Typography><Typography variant="h5" sx={{ fontWeight: 'bold' }}>R$ {totalExpense.toFixed(2)}</Typography></Box></Paper>
-              </Grid>
-              <Grid xs={12}>
-                <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'primary.dark', width: 56, height: 56 }}><AccountBalanceWalletIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Saldo</Typography><Typography variant="h5" sx={{ fontWeight: 'bold', color: balance >= 0 ? 'success.main' : 'error.main' }}>R$ {balance.toFixed(2)}</Typography></Box></Paper>
-              </Grid>
+          <Grid container xs={12} md={8} spacing={3}>
+            <Grid xs={12} sm={6}>
+              <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'success.dark', width: 56, height: 56 }}><ArrowUpwardIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Receitas</Typography><Typography variant="h5" sx={{ fontWeight: 'bold' }}>R$ {totalIncome.toFixed(2)}</Typography></Box></Paper>
+            </Grid>
+            <Grid xs={12} sm={6}>
+              <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'error.dark', width: 56, height: 56 }}><ArrowDownwardIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Despesas</Typography><Typography variant="h5" sx={{ fontWeight: 'bold' }}>R$ {totalExpense.toFixed(2)}</Typography></Box></Paper>
+            </Grid>
+            <Grid xs={12}>
+              <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}><Avatar sx={{ bgcolor: 'primary.dark', width: 56, height: 56 }}><AccountBalanceWalletIcon /></Avatar><Box><Typography variant="body1" color="text.secondary">Saldo</Typography><Typography variant="h5" sx={{ fontWeight: 'bold', color: balance >= 0 ? 'success.main' : 'error.main' }}>R$ {balance.toFixed(2)}</Typography></Box></Paper>
             </Grid>
           </Grid>
           <Grid xs={12} md={4}>
