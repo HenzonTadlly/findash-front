@@ -2,16 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import api from '../api';
 import {
-  Avatar,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Grid,
-  Link,
-  Snackbar,
-  Alert,
-  Paper,
+  Avatar, Box, Button, TextField, Typography, Grid, Link, Snackbar, Alert, Paper,
 } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
@@ -42,12 +33,8 @@ export function Login() {
       <Paper 
         elevation={6}
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          p: 4,
-          borderRadius: 2,
-          width: '100%',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          p: 4, borderRadius: 2, width: '100%',
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'primary.main', width: 56, height: 56 }}>
@@ -62,7 +49,7 @@ export function Login() {
           <TextField margin="normal" required fullWidth name="password" label="Senha" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Entrar</Button>
           <Grid container justifyContent="flex-end">
-            <Grid item>
+            <Grid>
               <Link component={RouterLink} to="/cadastro" variant="body2">
                 Não tem uma conta? Cadastre-se
               </Link>
