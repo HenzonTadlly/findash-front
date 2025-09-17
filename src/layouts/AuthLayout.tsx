@@ -3,9 +3,19 @@ import { Outlet } from 'react-router-dom';
 
 export function AuthLayout() {
   return (
-    <Container component="main" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Box sx={{ width: '100%', maxWidth: '450px' }}>
-         <Outlet />
+    // O Container já é responsivo por natureza
+    <Container component="main" maxWidth="xs"> 
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          py: { xs: 2, sm: 0 }, // Adiciona um padding vertical em telas pequenas (py = padding y-axis)
+        }}
+      >
+        <Outlet /> 
       </Box>
     </Container>
   );

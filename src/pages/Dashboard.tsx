@@ -2,9 +2,26 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import {
-  Container, Typography, CircularProgress, Box, Button, Modal, TextField,
-  Select, MenuItem, FormControl, InputLabel, IconButton, Stack, Paper,
-  Snackbar, Alert, Divider, Avatar,
+  Container,
+  Typography,
+  CircularProgress,
+  Box,
+  Button,
+  Modal,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  IconButton,
+  Stack,
+  Paper,
+  Snackbar,
+  Alert,
+  Divider,
+  Avatar,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -30,7 +47,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: { xs: '90%', sm: 400 },
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -58,6 +75,9 @@ export function Dashboard() {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [textContent, setTextContent] = useState('');
+  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   async function fetchTransactions(year: number, month: number) {
     try {
@@ -172,20 +192,35 @@ export function Dashboard() {
   return (
     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
       <Container maxWidth="lg">
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>Meu Dashboard</Typography>
-          <Stack direction="row" spacing={1}>
-            <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={() => setIsImportModalOpen(true)}>Importar</Button>
-            <Button variant="contained" onClick={handleOpenCreateModal}>Nova Transação</Button>
+        <Box 
+          sx={{ 
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            mb: 4,
+            gap: 2
+          }}
+        >
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', textAlign: { xs: 'center', sm: 'left' } }}>
+            Meu Dashboard
+          </Typography>
+          <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
+            <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={() => setIsImportModalOpen(true)}>
+              {isMobile ? '' : 'Importar'}
+            </Button>
+            <Button variant="contained" onClick={handleOpenCreateModal}>
+              {isMobile ? '+' : 'Nova Transação'}
+            </Button>
             <IconButton onClick={handleLogout} color="inherit" title="Sair"><LogoutIcon /></IconButton>
           </Stack>
         </Box>
 
-        <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
+        <Stack direction="row" spacing={2} sx={{ mb: 4, flexWrap: 'wrap' }}>
           <FormControl sx={{ minWidth: 150 }} size="small"><InputLabel>Mês</InputLabel><Select value={selectedMonth} label="Mês" onChange={(e: SelectChangeEvent<number>) => setSelectedMonth(e.target.value as number)}>{Array.from({ length: 12 }, (_, i) => (<MenuItem key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('pt-BR', { month: 'long' })}</MenuItem>))}</Select></FormControl>
           <FormControl sx={{ minWidth: 120 }} size="small"><InputLabel>Ano</InputLabel><Select value={selectedYear} label="Ano" onChange={(e: SelectChangeEvent<number>) => setSelectedYear(e.target.value as number)}>{Array.from({ length: 5 }, (_, i) => (<MenuItem key={currentYear - i} value={currentYear - i}>{currentYear - i}</MenuItem>))}</Select></FormControl>
         </Stack>
-        
+
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} sx={{ mb: 4 }}>
           <Stack spacing={3} sx={{ flexGrow: 1 }}>
             <Paper elevation={3} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2 }}>
@@ -209,7 +244,7 @@ export function Dashboard() {
         <Divider sx={{ my: 4 }} />
         <Typography variant="h5" component="h2" sx={{ mb: 2, fontWeight: 'bold' }}>Histórico de Transações</Typography>
 
-        {isLoading ? (<Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}><CircularProgress /></Box>) : transactions.length === 0 ? (<Paper sx={{ p: 4, textAlign: 'center', mt: 2, borderRadius: 2 }}><Typography variant="h6">Nenhuma transação encontrada.</Typography></Paper>) : (<Stack spacing={2}>{transactions.map((transaction) => (<Paper key={transaction.id} elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2, borderLeft: 5, borderColor: transaction.type === 'INCOME' ? 'success.main' : 'error.main' }}><Box sx={{ flexGrow: 1 }}><Typography variant="body1" sx={{ fontWeight: 'bold' }}>{transaction.title}</Typography><Typography variant="body2" color="text.secondary">{transaction.category}</Typography></Box><Box sx={{ textAlign: 'right' }}><Typography variant="body1" sx={{ fontWeight: 'bold', color: transaction.type === 'INCOME' ? 'success.main' : 'error.main' }}>{transaction.type === 'INCOME' ? '+' : '-'} R$ {Number(transaction.amount).toFixed(2)}</Typography><Typography variant="body2" color="text.secondary">{new Date(transaction.date).toLocaleDateString()}</Typography></Box><Stack direction="row"><IconButton size="small" onClick={() => handleOpenEditModal(transaction)}><EditIcon /></IconButton><IconButton size="small" onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton></Stack></Paper>))}</Stack>)}
+        {isLoading ? (<Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}><CircularProgress /></Box>) : transactions.length === 0 ? (<Paper sx={{ p: 4, textAlign: 'center', mt: 2, borderRadius: 2 }}><Typography variant="h6">Nenhuma transação encontrada.</Typography></Paper>) : (<Stack spacing={2}>{transactions.map((transaction) => (<Paper key={transaction.id} elevation={2} sx={{p: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: 2, borderRadius: 2, borderLeft: 5, borderColor: transaction.type === 'INCOME' ? 'success.main' : 'error.main' }}><Box sx={{ flexGrow: 1, width: '100%' }}><Typography variant="body1" sx={{ fontWeight: 'bold' }}>{transaction.title}</Typography><Typography variant="body2" color="text.secondary">{transaction.category}</Typography></Box><Box sx={{ textAlign: { xs: 'left', sm: 'right' }, width: { xs: '100%', sm: 'auto' }, display: 'flex', flexDirection: { xs: 'row', sm: 'column' }, justifyContent: 'space-between', alignItems: 'center' }}><Typography variant="body1" sx={{ fontWeight: 'bold', color: transaction.type === 'INCOME' ? 'success.main' : 'error.main' }}>{transaction.type === 'INCOME' ? '+' : '-'} R$ {Number(transaction.amount).toFixed(2)}</Typography><Typography variant="body2" color="text.secondary">{new Date(transaction.date).toLocaleDateString()}</Typography></Box><Stack direction="row" sx={{ width: { xs: '100%', sm: 'auto' }, justifyContent: 'flex-end' }}><IconButton size="small" onClick={() => handleOpenEditModal(transaction)}><EditIcon /></IconButton><IconButton size="small" onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton></Stack></Paper>))}</Stack>)}
 
         <Modal open={isModalOpen} onClose={handleCloseModal}><Box sx={style} component="form" onSubmit={handleFormSubmit}><Typography variant="h6" component="h2">{transactionToEdit ? 'Editar Transação' : 'Criar Nova Transação'}</Typography><TextField margin="normal" required fullWidth label="Título" value={title} onChange={e => setTitle(e.target.value)} /><TextField margin="normal" required fullWidth label="Valor" type="number" value={amount} onChange={e => setAmount(e.target.value)} /><TextField margin="normal" required fullWidth label="Categoria" value={category} onChange={e => setCategory(e.target.value)} /><TextField margin="normal" required fullWidth type="date" value={date} onChange={e => setDate(e.target.value)} /><FormControl fullWidth margin="normal"><InputLabel>Tipo</InputLabel><Select value={type} label="Tipo" onChange={(e: SelectChangeEvent) => setType(e.target.value as 'INCOME' | 'EXPENSE')}><MenuItem value="EXPENSE">Despesa</MenuItem><MenuItem value="INCOME">Receita</MenuItem></Select></FormControl><Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>{transactionToEdit ? 'Salvar Alterações' : 'Criar'}</Button></Box></Modal>
         
